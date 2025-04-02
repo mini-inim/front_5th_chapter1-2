@@ -1,3 +1,5 @@
+import { addEvent } from "./eventManager";
+
 export function createElement(vNode) {
   if (typeof vNode === "boolean" || vNode === null || vNode === undefined) {
     return document.createTextNode("");
@@ -24,13 +26,7 @@ export function createElement(vNode) {
     const el = document.createElement(vNode.type);
 
     if (vNode.props) {
-      for (const [key, value] of Object.entries(vNode.props)) {
-        if (key === "className") {
-          el.setAttribute("class", value);
-        } else {
-          el.setAttribute(key, value);
-        }
-      }
+      updateAttributes(el, vNode.props);
     }
 
     for (const child of vNode.children || []) {
@@ -43,4 +39,18 @@ export function createElement(vNode) {
   return new Error("컴포넌트는 처리할 수 없습니다.");
 }
 
-function updateAttributes($el, props) {}
+function updateAttributes($el, props) {
+  Object.entries(props).forEach(([key, value]) => {
+    if (key.startsWith("on")) {
+      const eventType = key.slice(2).toLowerCase();
+      addEvent($el, eventType, value);
+      return;
+    }
+
+    if (key === "className") {
+      key = key.replace("className", "class");
+    }
+
+    $el.setAttribute(key, value);
+  });
+}
