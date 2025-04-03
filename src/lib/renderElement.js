@@ -16,12 +16,12 @@ export function renderElement(vNode, container) {
 
   //최초 렌더링 여부
   if (container.innerHTML === "") {
+    oldNode = newNode;
     const element = createElement(newNode);
     container.appendChild(element);
   } else {
     updateElement(container, newNode, oldNode);
+    oldNode = newNode;
   }
-
-  oldNode = newNode;
   setupEventListeners(container);
 }
