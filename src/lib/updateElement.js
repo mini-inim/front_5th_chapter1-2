@@ -47,7 +47,7 @@ export function updateElement(parentElement, newNode, oldNode, index = 0) {
   //1. newNode가 없고 oldNode가 있는 경우
   //노드 제거
   if (!newNode && oldNode) {
-    return parentElement.removeChild(parentElement.childNode[index]);
+    return parentElement.removeChild(parentElement.childNodes[index]);
   }
 
   //2. newNode가 있고 oldNode가 없는 경우

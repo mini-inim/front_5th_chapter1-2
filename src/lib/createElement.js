@@ -12,7 +12,6 @@ export function createElement(vNode) {
   if (Array.isArray(vNode)) {
     const fragment = document.createDocumentFragment();
 
-    console.log(vNode);
     for (const { type, children } of vNode) {
       const child = document.createElement(type);
       child.textContent = `${children[0]}`;

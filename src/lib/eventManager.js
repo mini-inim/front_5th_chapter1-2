@@ -28,7 +28,6 @@ export function addEvent(element, eventType, handler) {
 
 export function removeEvent(element, eventType, handler) {
   const isHandler = eventStore.get(element);
-
   if (isHandler.has(eventType)) {
     isHandler.delete(eventType);
   }
