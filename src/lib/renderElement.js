@@ -26,6 +26,8 @@ export function renderElement(vNode, container) {
   //   updateElement(container, newNode, oldNode)
   // }
 
+  container.innerHTML = "";
+
   const element = createElement(newNode);
   container.appendChild(element);
 
