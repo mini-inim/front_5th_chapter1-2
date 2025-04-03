@@ -47,9 +47,9 @@ function updateAttributes($el, props) {
     }
 
     if (key === "className") {
-      key = key.replace("className", "class");
+      $el.setAttribute("class", value);
+    } else {
+      $el.setAttribute(key, value);
     }
-
-    $el.setAttribute(key, value);
   });
 }

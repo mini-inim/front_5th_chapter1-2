@@ -3,8 +3,19 @@ import { createElement } from "./createElement.js";
 
 function updateAttributes(target, originNewProps, originOldProps) {
   //변경사항 반영
-  for (const [key, value] of Object.entries(originNewProps)) {
+  for (let [key, value] of Object.entries(originNewProps)) {
     if (originOldProps[key] === originNewProps[key]) {
+      continue;
+    }
+
+    if (key.startsWith("on") && typeof originNewProps[key] === "function") {
+      const eventType = key.slice(2).toLowerCase();
+
+      if (typeof originOldProps[key] === "function") {
+        removeEvent(target, eventType, originOldProps[key]);
+      }
+
+      addEvent(target, eventType, originNewProps[key]);
       continue;
     }
 
@@ -18,28 +29,12 @@ function updateAttributes(target, originNewProps, originOldProps) {
     if (originNewProps[key] !== undefined) {
       continue;
     }
+
+    if (key.startsWith("on")) {
+      const eventType = key.slice(2).toLowerCase();
+      removeEvent(target, eventType, originOldProps[key]);
+    }
     target.removeAttribute(key);
-  }
-
-  //이벤트 핸들러 업데이트
-  //1. 이전 이벤트 핸들러 제거
-  for (const [key, value] of Object.entries(originOldProps)) {
-    if (typeof value !== "function") {
-      continue;
-    }
-
-    const eventType = key.replace("on", "").toLowerCase();
-    removeEvent(target, eventType, value);
-  }
-
-  //2. 이벤트 추가
-  for (const [key, value] of Object.entries(originNewProps)) {
-    if (typeof value !== "function") {
-      continue;
-    }
-
-    const eventType = key.replace("on", "").toLowerCase();
-    addEvent(target, eventType, value);
   }
 }
 
