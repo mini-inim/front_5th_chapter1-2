@@ -14,24 +14,14 @@ export function renderElement(vNode, container) {
   //Node 정규화
   const newNode = normalizeVNode(vNode);
 
-  console.log(newNode);
-
   //최초 렌더링 여부
-  // if(container.innerHTML === ""){
-  //   const element = createElement(newNode);
-  //   container.appendChild(element);
-
-  //   console.log(container)
-  // } else {
-  //   updateElement(container, newNode, oldNode)
-  // }
-
-  container.innerHTML = "";
-
-  const element = createElement(newNode);
-  container.appendChild(element);
+  if (container.innerHTML === "") {
+    const element = createElement(newNode);
+    container.appendChild(element);
+  } else {
+    updateElement(container, newNode, oldNode);
+  }
 
   oldNode = newNode;
-
   setupEventListeners(container);
 }
